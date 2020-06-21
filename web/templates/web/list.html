@@ -1,0 +1,64 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block main %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{% static 'web/img/office.jpg' %}')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>BigBug</h1>
+                        <span class="subheading">Easy DataSience</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% block header %}
+                {% endblock %}
+                {% for article in object_list %}
+                    <div class="post-preview">
+                        <a href="{% url 'web:detail' article.slug %}">
+                            <h2 class="post-title">
+                                {{ article.title }}
+                            </h2>
+                            <h3 class="post-subtitle">
+                                {{ article.description|truncatewords:20 }}
+                            </h3>
+                        </a>
+                        <p class="post-meta">Posted by
+                            <a href="#">Mohammad</a>
+                            {{ article.jpublish }}</p>
+
+                        {% for cat in article.category.active %}
+                            <div>
+                                <a href="{% url 'web:category' cat.slug %}">#{{ cat.title }}</a>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                    <hr>
+                {% endfor %}
+                <!-- Pager -->
+                <div class="clearfix pager-botten">
+                    {% if page_obj.has_previous %}
+                        <a class="btn btn-primary float-right"
+                           href="{% block previous_page_url %}{% endblock %}"> &rarr;پست های
+                            جدید</a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                        <a class="btn btn-primary float-right"
+                           href="{% block next_page_url %}{% endblock %}">پست های قدیمی
+                            &larr;</a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

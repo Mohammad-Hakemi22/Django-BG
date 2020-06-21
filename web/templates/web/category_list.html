@@ -1,0 +1,15 @@
+{% extends 'web/list.html' %}
+{% load static %}
+
+{% block header %}
+    <h3 class="alert-success alert-primary text-center">دسته بندی:{{ category.title }}</h3>
+{% endblock %}
+
+{% block previous_page_url %}
+    {% url 'web:category' category.slug page_obj.previous_page_number %}
+{% endblock %}
+{% block next_page_url %}
+    {% url 'web:category' category.slug page_obj.next_page_number %}
+{% endblock %}
+
+
