@@ -1,0 +1,15 @@
+{% extends 'web/list.html' %}
+{% load static %}
+
+{% block header %}
+    <h3 class="alert-success alert-primary text-center">نویسنده:{{ author.get_full_name }}</h3>
+{% endblock %}
+
+{% block previous_page_url %}
+    {% url 'web:author' author.username page_obj.previous_page_number %}
+{% endblock %}
+{% block next_page_url %}
+    {% url 'web:author' author.username page_obj.next_page_number %}
+{% endblock %}
+
+

@@ -1,0 +1,15 @@
+body {
+    text-align: right !important ;
+    direction: rtl !important ;
+}
+
+.btn-show-pass{
+    right: initial;
+    left: 0;
+}
+
+.error{
+    color: red;
+    margin-bottom: 18px;  
+
+}

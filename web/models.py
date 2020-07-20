@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from extensions.utils import jalali_converter
 from django.utils.html import format_html
+from account.models import User
+from django.urls import reverse
 
 
 # create my manager
@@ -39,6 +41,8 @@ class Articles(models.Model):
         ('D', 'پیش نویس'),
         ('P', 'منتشر شده')
     )
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='articles',
+                               verbose_name='نویسنده')
     title = models.CharField(max_length=300, verbose_name='عنوان')
     slug = models.CharField(max_length=100, unique=True,
                             verbose_name='آدرس مقاله')
@@ -70,5 +74,12 @@ class Articles(models.Model):
         return format_html(
             "<img src='{}' height=80 width=120 style='border-radius: 10px;' >".format(self.thumbnail.url))
 
+    def category_to_str(self):
+        return ' ,'.join([category.title for category in self.category.active()])
+
+    def get_absolute_url(self):
+        return reverse('account:home')
+
+    category_to_str.short_description = 'دسته بندی'
     thumbnail_tag.short_description = 'تصویر پست'
     objects = ArticleManager()

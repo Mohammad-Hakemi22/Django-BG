@@ -51,19 +51,18 @@ make_draft_category.short_description = 'نمایش ندادن دسته بندی
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'thumbnail_tag', 'slug', 'jpublish', 'status', 'category_to_str'
+    list_display = ('title', 'thumbnail_tag', 'slug', 'jpublish', 'status', 'category_to_str', 'author'
                     )
-    list_filter = ('title', 'slug', 'publish', 'status'
+    list_filter = ('title', 'slug', 'publish', 'status', 'author'
                    )
     search_fields = ('title', 'slug', 'description')
     prepopulated_fields = {'slug': ('title',)}
     ordering = ['status', '-publish']  # - nozoli
     actions = [make_published_article, make_draft_article]
 
-    def category_to_str(self, obj):
-        return ' ,'.join([category.title for category in obj.category.active()])
 
-    category_to_str.short_description = 'دسته بندی'
+
+
 
 
 admin.site.register(Articles, ArticleAdmin)
