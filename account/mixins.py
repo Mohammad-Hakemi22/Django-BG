@@ -1,5 +1,6 @@
 from django.http import Http404
-
+from django.shortcuts import get_object_or_404
+from web.models import Articles
 
 class FieldsMixins():
     def dispatch(self, request, *args, **kwargs):
@@ -27,3 +28,13 @@ class FormValidMixins():
             self.obj.author = self.request.user
             self.obj.status = 'D'
         return super().form_valid(form)
+
+
+class AuthorAccessMixins():
+    def dispatch(self, request,pk, *args, **kwargs):
+        article = get_object_or_404(Articles,pk=pk)
+        if article.author==request.user or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            raise Http404("you can't see this page")
+
