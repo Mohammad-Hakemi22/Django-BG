@@ -20,7 +20,7 @@ class FieldsMixins():
 
 class FormValidMixins():
     def form_valid(self, form):
-        if self.request.is_superuser:
+        if self.request.user.is_superuser:
             form.save()
         else:
             self.obj = form.save(commit=False)
