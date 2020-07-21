@@ -7,69 +7,73 @@
 {{user.get_full_name}} خوش آمدید
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
+        {% if object_list %}
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Responsive Hover Table</h3>
 
-                <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body table-responsive p-0">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>عنوان</th>
-                            <th>دسته بندی</th>
-                            <th>متن مقاله</th>
-                            <th>تصویر</th>
-                            <th>نویسنده</th>
-                            <th>زمان انتشار</th>
-                            <th>وضعیت</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for article in object_list %}
-                        <tr>
-                            <td>
-                                {% if article.status == 'D' or user.is_superuser %}
-                                    <a href="{% url 'account:article-update' article.pk %}">{{article.title}}</a>
-                                {% else %}
-                                    {{article.title}}
-                                {% endif %}
-                            </td>
-                            <td>{{article.category_to_str}}</td>
-                            <td>{{article.description|safe|truncatewords:20|striptags}}</td>
-                            <td><img src="{{article.thumbnail.url}}" height="50" width="100"></td>
-                            <td>{{article.author.get_full_name}}</td>
-                            <td>{{article.jpublish}}</td>
-                            <td>
-                                {% if article.status == 'P' %}
-                                    <span class="badge badge-success">منتشر شده</span>
-                                    <a class="badge badge-primary" href="{% url 'web:detail' article.slug %}" target="_blank" >مشاهده در سایت</a>
-                                {% else %}
-                                    <span class="badge badge-danger">پیش نویس</span>
-                                {% endif %}
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>دسته بندی</th>
+                                <th>متن مقاله</th>
+                                <th>تصویر</th>
+                                <th>نویسنده</th>
+                                <th>زمان انتشار</th>
+                                <th>وضعیت</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for article in object_list %}
+                            <tr>
+                                <td>
+                                    {% if article.status == 'D' or user.is_superuser %}
+                                        <a href="{% url 'account:article-update' article.pk %}">{{article.title}}</a>
+                                    {% else %}
+                                        {{article.title}}
+                                    {% endif %}
+                                </td>
+                                <td>{{article.category_to_str}}</td>
+                                <td>{{article.description|safe|truncatewords:20|striptags}}</td>
+                                <td><img src="{{article.thumbnail.url}}" height="50" width="100"></td>
+                                <td>{{article.author.get_full_name}}</td>
+                                <td>{{article.jpublish}}</td>
+                                <td>
+                                    {% if article.status == 'P' %}
+                                        <span class="badge badge-success">منتشر شده</span>
+                                        <a class="badge badge-primary" href="{% url 'web:detail' article.slug %}" target="_blank" >مشاهده در سایت</a>
+                                    {% else %}
+                                        <span class="badge badge-danger">پیش نویس</span>
+                                    {% endif %}
 
-                                {% if user.is_superuser %}
-                                    <a class="badge badge-danger" href="{% url 'account:article-delete' article.pk %}" >حذف مقاله</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                    {% if user.is_superuser %}
+                                        <a class="badge badge-danger" href="{% url 'account:article-delete' article.pk %}" >حذف مقاله</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
+            <!-- /.card -->
+        {% else %}
+            <h3>مقاله ای برای نمایش موجود نیست</h3>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
