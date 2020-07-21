@@ -38,7 +38,13 @@
                     <tbody>
                         {% for article in object_list %}
                         <tr>
-                            <td><a href="{% url 'account:article-update' article.pk %}">{{article.title}}</a></td>
+                            <td>
+                                {% if article.status == 'D' or user.is_superuser %}
+                                    <a href="{% url 'account:article-update' article.pk %}">{{article.title}}</a>
+                                {% else %}
+                                    {{article.title}}
+                                {% endif %}
+                            </td>
                             <td>{{article.category_to_str}}</td>
                             <td>{{article.description|safe|truncatewords:20|striptags}}</td>
                             <td><img src="{{article.thumbnail.url}}" height="50" width="100"></td>
