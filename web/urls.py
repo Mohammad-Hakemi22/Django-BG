@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import Articlelist, ArticleDetail, Categorylist,Authorlist
+from .views import Articlelist, ArticleDetail, Categorylist,Authorlist,ArticlePreview
 
 app_name = 'web'
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('category/<slug:slug>/page/<int:page>', Categorylist.as_view(), name='category'),
     path('author/<slug:username>', Authorlist.as_view(), name='author'),
     path('author/<slug:username>/page/<int:page>', Authorlist.as_view(), name='author'),
+    path('preview/<int:pk>', ArticlePreview.as_view(), name='preview'),
 ]

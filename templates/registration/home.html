@@ -57,6 +57,7 @@
                                         <a class="badge badge-primary" href="{% url 'web:detail' article.slug %}" target="_blank" >مشاهده در سایت</a>
                                     {% else %}
                                         <span class="badge badge-danger">پیش نویس</span>
+                                        <a class="badge badge-secondary" href="{% url 'web:preview' article.pk %}" target="_blank" >پیش نمایش</a>
                                     {% endif %}
 
                                     {% if user.is_superuser %}

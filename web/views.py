@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .models import Articles, Category
 from account.models import User
 from django.core.paginator import Paginator
+from account.mixins import AuthorAccessMixins
 
 
 # Create your views here.
@@ -20,12 +21,19 @@ class Articlelist(ListView):
 #     }
 #     return render(request, 'web/home.html', context)
 
-class ArticleDetail(DetailView):
+class ArticleDetail(AuthorAccessMixins,DetailView):
     def get_object(self):
         slug = self.kwargs.get('slug')
         queryset = get_object_or_404(Articles.objects.published(), slug=slug)
         return queryset
 
+
+
+class ArticlePreview(DetailView):
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        queryset = get_object_or_404(Articles, pk=pk)
+        return queryset
 
 # def detail(request, slug):
 #     # article = Articles.objects.get(slug=slug)
