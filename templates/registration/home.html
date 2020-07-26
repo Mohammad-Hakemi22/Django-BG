@@ -33,6 +33,7 @@
                                 <th>تصویر</th>
                                 <th>نویسنده</th>
                                 <th>زمان انتشار</th>
+                                <th>مقاله ویژه</th>
                                 <th>وضعیت</th>
                             </tr>
                         </thead>
@@ -51,6 +52,13 @@
                                 <td><img src="{{article.thumbnail.url}}" height="50" width="100"></td>
                                 <td>{{article.author.get_full_name}}</td>
                                 <td>{{article.jpublish}}</td>
+                                <td>
+                                    {% if article.is_special %}
+                                        <i class="fas fa-crown" style="color:#ffcb00; margin-right: 22px;  "></i>
+                                    {% else %}
+                                        <i class="fas fa-minus-circle" style="color:#ff0000; margin-right: 22px;"></i>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     {% if article.status == 'P' %}
                                         <span class="badge badge-success">منتشر شده</span>

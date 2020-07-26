@@ -28,7 +28,17 @@
                                 {{ article.title }}
                             </h2>
                             <h3 class="post-subtitle">
+                                {% if article.is_special %}
+                                {% if user.is_authenticated and user.is_superuser or user == article.auther or user.is_superuser %}
+                                    {{ article.description|safe|truncatewords:20|striptags }}
+                                {% else %}
+                                  <p>              این مقاله برای کاربران ویژه است
+                                    <a href=#>اشتراک ویژه</a>
+                                  </p>
+                                {% endif %}
+                              {% else %}
                                 {{ article.description|safe|truncatewords:20|striptags }}
+                              {% endif %}
                             </h3>
                         </a>
                         <p class="post-meta">Posted by

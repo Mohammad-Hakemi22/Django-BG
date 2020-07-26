@@ -8,12 +8,12 @@ class FieldsMixins():
         if request.user.is_superuser:
             self.fields = [
                 'author', 'title', 'slug', 'category',
-                'description', 'thumbnail', 'publish', 'status'
+                'description', 'thumbnail', 'publish', 'is_special', 'status'
             ]
         elif request.user.is_author:
             self.fields = [
                 'title', 'slug', 'category',
-                'description', 'thumbnail', 'publish'
+                'description', 'thumbnail', 'is_special', 'publish'
             ]
         else:
             raise Http404("you can't see this page")
@@ -34,12 +34,11 @@ class FormValidMixins():
 class AuthorAccessMixins():
     def dispatch(self, request, pk, *args, **kwargs):
         article = get_object_or_404(Articles, pk=pk)
-        if article.author == request.user and article.status in ['B','D'] or\
+        if article.author == request.user and article.status in ['B', 'D'] or\
                 request.user.is_superuser:
             return super().dispatch(request, *args, **kwargs)
         else:
             raise Http404("you can't see this page")
-
 
 
 class SuperUserDeleteMixins():
@@ -48,4 +47,3 @@ class SuperUserDeleteMixins():
             return super().dispatch(request, *args, **kwargs)
         else:
             raise Http404("you can't see this page")
-

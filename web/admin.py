@@ -51,7 +51,7 @@ make_draft_category.short_description = 'نمایش ندادن دسته بندی
 
 
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'thumbnail_tag', 'slug', 'jpublish', 'status', 'category_to_str', 'author'
+    list_display = ('title', 'thumbnail_tag', 'slug', 'jpublish','is_special', 'status', 'category_to_str', 'author'
                     )
     list_filter = ('title', 'slug', 'publish', 'status', 'author'
                    )
