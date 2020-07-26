@@ -38,8 +38,10 @@ class Category(models.Model):
 
 class Articles(models.Model):
     STATUS_CHOICES = (
-        ('D', 'پیش نویس'),
-        ('P', 'منتشر شده')
+        ('D', 'پیش نویس'),      #draft
+        ('P', 'منتشر شده'),     #publish
+        ('I', 'در حال بررسی'),  #investigation
+        ('B', 'تایید نشده'),    #back
     )
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='articles',
                                verbose_name='نویسنده')
