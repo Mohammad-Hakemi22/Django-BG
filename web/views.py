@@ -21,7 +21,7 @@ class Articlelist(ListView):
 #     }
 #     return render(request, 'web/home.html', context)
 
-class ArticleDetail(AuthorAccessMixins,DetailView):
+class ArticleDetail(DetailView):
     def get_object(self):
         slug = self.kwargs.get('slug')
         queryset = get_object_or_404(Articles.objects.published(), slug=slug)
@@ -29,7 +29,7 @@ class ArticleDetail(AuthorAccessMixins,DetailView):
 
 
 
-class ArticlePreview(DetailView):
+class ArticlePreview(AuthorAccessMixins,DetailView):
     def get_object(self):
         pk = self.kwargs.get('pk')
         queryset = get_object_or_404(Articles, pk=pk)
