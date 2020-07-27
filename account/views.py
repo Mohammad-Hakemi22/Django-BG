@@ -37,8 +37,16 @@ class ArticleDelete(SuperUserDeleteMixins, DeleteView):
 
 class Profile(UpdateView):
     model = User
-    form_class=ProfileForm
+    form_class = ProfileForm
     template_name = "registration/profile.html"
-    success_url=reverse_lazy('account:profile')
+    success_url = reverse_lazy('account:profile')
+
     def get_object(self):
         return User.objects.get(pk=self.request.user.pk)
+
+    def get_form_kwargs(self):
+        kwargs = super(Profile, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return kwargs
