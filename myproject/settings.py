@@ -17,6 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOGIN_REDIRECT_URL = "account:home"
 LOGOUT_REDIRECT_URL = "account:login"
 LOGIN_URL = "account:login"
+LOGIN_REDIRECT_URL = "account:profile"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
