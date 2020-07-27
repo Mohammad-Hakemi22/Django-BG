@@ -35,7 +35,7 @@ class ArticleDelete(SuperUserDeleteMixins, DeleteView):
     template_name = "registration/articles_confirm_delete.html"
 
 
-class Profile(UpdateView):
+class Profile(LoginRequiredMixin,UpdateView):
     model = User
     form_class = ProfileForm
     template_name = "registration/profile.html"
