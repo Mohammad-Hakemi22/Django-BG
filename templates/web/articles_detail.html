@@ -10,7 +10,11 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="site-heading">
             <h1>BigBug</h1>
-            <span class="subheading">{{object.title}}</span>
+            <span class="subheading">{{object.title}}
+              {% if object.is_special %}
+                <span class="badge badge-warning" style="font-size:18px;" >ویژه</span>
+              {% endif %}
+            </span>
               <time>{{ object.jpublish }}</time>
           </div>
         </div>
@@ -24,11 +28,10 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           {% if object.is_special %}
             {% if user.is_authenticated and user.is_superuser or user == object.auther or user.is_superuser %}
-              {{object.description|safe}}
+              {{object.description|safe }}
             {% else %}
-              <p>              این مقاله برای کاربران ویژه است
-                <a href=#>اشتراک ویژه</a>
-              </p>
+              {{object.description|safe|truncatewords:30|striptags }}
+              <p class="alert alert-warning">این مقاله برای کاربران ویژه است <a class="alert-link" href="{% url 'account:login'%}">اشتراک ویژه</a></p>
             {% endif %}
           {% else %}
             {{object.description|safe}}
