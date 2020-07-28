@@ -5,13 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from web.models import Articles
 from django.urls import reverse_lazy
-from .mixins import FieldsMixins, FormValidMixins, AuthorAccessMixins, SuperUserDeleteMixins
+from .mixins import FieldsMixins, FormValidMixins, AuthorAccessMixins, SuperUserDeleteMixins,AuthorsAccessMixins
 from .models import User
 from .forms import ProfileForm
 
 
 
-class ArticleList(LoginRequiredMixin, ListView):
+class ArticleList(AuthorsAccessMixins, ListView):
     template_name = 'registration/home.html'
 
     def get_queryset(self):
@@ -21,7 +21,7 @@ class ArticleList(LoginRequiredMixin, ListView):
             return Articles.objects.filter(author=self.request.user)
 
 
-class ArticleCreate(LoginRequiredMixin, FieldsMixins, FormValidMixins, CreateView):
+class ArticleCreate(AuthorsAccessMixins, FieldsMixins, FormValidMixins, CreateView):
     model = Articles
     template_name = "registration/article-create-update.html"
 
