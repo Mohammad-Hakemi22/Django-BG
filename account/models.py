@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 class User(AbstractUser):
+    email=models.EmailField(unique=True, blank=False,verbose_name='آدرس ایمیل')
     is_author = models.BooleanField(default=False, verbose_name='نویسنده مقاله')
     special_user = models.DateTimeField(default=timezone.now, verbose_name='کاربر ویژه تا')
 
