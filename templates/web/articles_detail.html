@@ -2,6 +2,8 @@
 {% load static %}
 {% block title %} | {{object.title}}{% endblock %}
 {% block main %}
+{% load comment_tags %}
+
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('{{object.thumbnail.url}}')">
     <div class="overlay"></div>
@@ -36,6 +38,10 @@
           {% else %}
             {{object.description|safe}}
           {% endif %}
+
+          {% render_comments object request %}
+          {% include_static_jquery %}  
+          {% include_bootstrap %}
         </div>
       </div>
     </div>

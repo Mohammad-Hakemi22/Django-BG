@@ -4,9 +4,12 @@ from extensions.utils import jalali_converter
 from django.utils.html import format_html
 from account.models import User
 from django.urls import reverse
-
+from django.contrib.contenttypes.fields import GenericRelation
+from comment.models import Comment
 
 # create my manager
+
+
 class ArticleManager(models.Manager):
     def published(self):
         return self.filter(status='P')
@@ -21,7 +24,8 @@ class Category(models.Model):
     parent = models.ForeignKey('self', default=None, null=True, blank=True, on_delete=models.SET_NULL,
                                related_name='children', verbose_name='زیر دسته')
     title = models.CharField(max_length=300, verbose_name='عنوان دسته بندی')
-    slug = models.CharField(max_length=100, unique=True, verbose_name='آدرس دسته بندی')
+    slug = models.CharField(max_length=100, unique=True,
+                            verbose_name='آدرس دسته بندی')
     status = models.BooleanField(default=True, verbose_name='نمایش داده شود')
     position = models.IntegerField(verbose_name='موقعیت')
 
@@ -38,17 +42,18 @@ class Category(models.Model):
 
 class Articles(models.Model):
     STATUS_CHOICES = (
-        ('D', 'پیش نویس'),      #draft
-        ('P', 'منتشر شده'),     #publish
-        ('I', 'در حال بررسی'),  #investigation
-        ('B', 'تایید نشده'),    #back
+        ('D', 'پیش نویس'),  # draft
+        ('P', 'منتشر شده'),  # publish
+        ('I', 'در حال بررسی'),  # investigation
+        ('B', 'تایید نشده'),  # back
     )
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='articles',
                                verbose_name='نویسنده')
     title = models.CharField(max_length=300, verbose_name='عنوان')
     slug = models.CharField(max_length=100, unique=True,
                             verbose_name='آدرس مقاله')
-    category = models.ManyToManyField('Category', verbose_name='دسته بندی', related_name='articles')
+    category = models.ManyToManyField(
+        'Category', verbose_name='دسته بندی', related_name='articles')
     description = models.TextField(verbose_name='محتوا')
     thumbnail = models.ImageField(
         upload_to='images', verbose_name='تصویر مقاله')
@@ -59,6 +64,7 @@ class Articles(models.Model):
     is_special = models.BooleanField(default=False, verbose_name='مقاله ویژه')
     status = models.CharField(
         max_length=1, choices=STATUS_CHOICES, verbose_name='وضعیت')
+    comments = GenericRelation(Comment)
 
     class Meta:
         verbose_name = 'مقاله'
