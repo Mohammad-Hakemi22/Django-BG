@@ -31,20 +31,22 @@
                                 {% endif %}
                                 
                             </h2>
+                        </a>
                             <h3 class="post-subtitle">
                                 {% if article.is_special %}
-                                {% if user.is_authenticated and user.is_superuser or user == article.auther or user.is_superuser %}
-                                    {{ article.description|safe|truncatewords:20|striptags }}
+                                {% if user.is_authenticated and user.is_superuser or user == article.author or user.is_special_user %}
+                                    <a href="{% url 'web:detail' article.slug %}">{{ article.description|safe|truncatewords:20|striptags }}</a>
                                 {% else %}
-                                  <p>              این مقاله برای کاربران ویژه است
-                                    <a href=#>اشتراک ویژه</a>
-                                  </p>
+                                <p>
+                                    این مقاله برای کاربران ویژه است
+                                </p>
+                                <a href="{% url 'login' %}">اشتراک ویژه</a>
                                 {% endif %}
                               {% else %}
                                 {{ article.description|safe|truncatewords:20|striptags }}
                               {% endif %}
                             </h3>
-                        </a>
+                        
                         <p class="post-meta">Posted by
                             <a href="{% url 'web:author' article.author %}">{{ article.author.get_full_name }}</a>
                             {{ article.jpublish }}</p>
